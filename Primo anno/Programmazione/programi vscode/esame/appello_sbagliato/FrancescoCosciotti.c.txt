@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void filtra(char*, int*);
+/*
+void main(){
+	char a[] =  "algoritmo";
+	int b[] = {0,0,0,1,0,0,1,0,1};
+	filtra(a,b);
+	printf("'%s'\n",a);
+}
+*/
+
+void filtra(char *a, int *b){
+	
+	int i = 0,j = 0;
+	
+	while (a[i] != '\0'){ // scorro tutto a
+		
+		if (b[i] == 1){ 
+			a[j] = a[i]; 
+			j++;        // se b == 1 prendo il char in posizione a[j], che viene incrementato solo in questo caso, e lo sostituisco ad a[i] il quale viene incrementato in ogni caso
+		}               // così facendo i char attraversati da j sono solo quelli giusti e alla fine del ciclo while sostituisco al carattere a[j] il carattere di fine stringa
+		i++;
+	}
+	a[j] = '\0';
+}

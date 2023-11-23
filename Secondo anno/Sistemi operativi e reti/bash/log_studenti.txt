@@ -1,0 +1,54 @@
+ 3006  wget http://sag.art.uniroma2.it/didattica/croce/foo.txt
+ 3007  cat foo.txt 
+ 3008  cat foo.txt | tail -n 2
+ 3009  mv foo.txt foo.tsv
+ 3010  ls
+ 3011  ls -lrth
+ 3012  ls -lrth *tsv
+ 3013  ls *tsv
+ 3014  cp foo.tsv foo2.tsv 
+ 3015  ls *tsv
+ 3016  man cp
+ 3017  mv foo2.tsv foo2.exe
+ 3018  cat foo.txt | tail -n 2 | head -n 1
+ 3019  cat foo.tsv | tail -n 2 | head -n 1
+ 3020  cat foo.tsv | tail -n -3
+ 3021  cat foo.tsv | tail -n 2 
+ 3022  wc foo.tsv 
+ 3023  cat foo.tsv | tail -n 2 | head -n 1 | wc
+ 3024  cat foo.tsv 
+ 3025  cat foo.tsv | awk '{print $3}'
+ 3026  cat foo.tsv | awk -F"\t" '{print $3}'
+ 3027  cat foo.tsv | awk -F"\t" '{print $3}' | sort 
+ 3028  cat foo.tsv | awk -F"\t" '{print $3}' | sort | uniq
+ 3029  cat foo.tsv | awk -F"\t" '{print $3}' | sort | uniq -c
+ 3030  less foo.tsv 
+ 3031  vim foo.tsv 
+ 3032  cat foo.tsv | awk -F"\t" '{print $3}' | sort | uniq -c
+ 3033  less foo.tsv 
+ 3034  cat foo.tsv | awk '{print $3}' | sort | uniq -c
+ 3035  cat foo.tsv | awk -F"\t" '{print NR}' | sort | uniq -c
+ 3036  cat foo.tsv | awk -F"\t" '{print NR}' 
+ 3037  cat foo.tsv | awk -F"\t" '{print NF}' 
+ 3038  cat foo.tsv | awk -F"\t" '{print $3}' | sort | uniq -c 
+ 3039  cat foo.tsv | awk -F"\t" '{print $3}' | sort | uniq -c > log_stdout.txt
+ 3040  less log_stdout.txt 
+ 3041  cat foo.tsv | awk -F"\t" '{print $3}' | sort | uniq -c 2> log_stderr.txt
+ 3042  cat foo.tsv | awk -F"\t" '{print $3}' | sort | uniq -c 2> log_stderr.txt 1> log_stdout.txt 
+ 3043  history 
+ 3044  history | awk '{if($1>3006) print}'
+ 3045  history | awk '{if($1>=3006) print}' > log_studenti.txt
+ 3046  ca foo.tsv 
+ 3047  ls
+ 3048  ls -lrth
+ 3049  cat foo.tsv 
+ 3050  cat foo.tsv | sed 's/APRIL/PAPPAGALLO/g'
+ 3051  cat foo.tsv | grep JULY
+ 3052  cat foo.tsv | grep -v JULY
+ 3053  ls -lrth
+ 3054  less log_studenti.txt 
+ 3055  echo $PATH
+ 3056  printenv
+ 3057  foo=5
+ 3058  echo $foo
+ 3059  history | awk '{if($1>=3006) print}' > log_studenti.txt

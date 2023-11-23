@@ -1,0 +1,9 @@
+ironman@avengers.mv;8
+captain.america@avengers.mv;9
+hulk@avengers.mv;5
+
+superman@justiceleague.dc;8
+wonder.woman@justiceleague.dc;9
+
+thor@avengers.mv;6
+batman@justiceleague.dc;7
