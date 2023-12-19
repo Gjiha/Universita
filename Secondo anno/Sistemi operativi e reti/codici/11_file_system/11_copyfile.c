@@ -11,19 +11,17 @@
 
 #define TRUE 1
 
-// Prototipo della funzione main secondo lo standard ANSI
-int main(int argc, char *argv[]);
-
 int main(int argc, char *argv[]) {
     int in_fd, out_fd;      // File descriptor per i file di input e output
     int rd_count, wt_count; // Contatori per la lettura e scrittura
     char buffer[BUF_SIZE];  // Buffer per la lettura e scrittura dei dati
 
     // Controllo del numero di argomenti
-    if (argc != 3) {
+    if (argc != 3) { // il primo è il nome dell'eseguibile, e poi il secondo è
+                     // il file da cui leggi e il terzo dove scrivi
         // Stampa un messaggio di errore se il numero di argomenti non è
         // corretto
-        fprintf(
+        fprintf( // gli specifichi dove scrivere
             stderr,
             "Errore di sintassi. Uso: %s input_file_path output_file_path\n",
             argv[0]);
