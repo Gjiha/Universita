@@ -1,60 +1,71 @@
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <syscall.h>
 #include <time.h>
 #include <unistd.h>
 
-#define FD_READ 0
-#define FD_WRITE 1
+#define MAX 190
+#define TRUE 1
+#define RD 0
+#define WR 1
 
-int generate(void);
+int randomize(void) {
+    int n = rand() % 101;
+    return n;
+}
 
-int main() {
-    srand(time(NULL));
-    pid_t pari_pid, disp_pid;
-    int fd_pari[2], fd_disp[2];
-    pipe(fd_disp);
-    pipe(fd_pari);
-    ssize_t buffer;
+int main(int agrc, char *argv[]) {
 
-    if ((pari_pid = fork()) == 0) {
-        close(fd_pari[FD_READ]);
-        while (1) {
-            int n = generate();
+    // costruzione pipe;
+    int odd_pipe[2];
+    int even_pipe[2];
+    pipe(odd_pipe);
+    pipe(even_pipe);
+    int buffer;
+    int even_pid, odd_pid;
+
+    if ((even_pid = fork()) == 0) {
+
+        srand(time(NULL));
+        close(even_pipe[RD]);
+        while (TRUE) {
+            int n = randomize();
             if ((n % 2) == 0) {
-                write(fd_pari[FD_WRITE], &n, sizeof(int));
+                write(even_pipe[WR], &n, sizeof(int));
             }
         }
-    } else if ((disp_pid = fork()) == 0) {
-        close(fd_disp[FD_READ]);
-        while (1) {
-            int t = generate();
-            if ((t % 2) != 0) {
-                write(fd_disp[FD_WRITE], &t, sizeof(int));
+    } else if ((odd_pid = fork()) == 0) {
+
+        srand(time(NULL));
+        close(odd_pipe[RD]);
+        while (TRUE) {
+            int n = randomize();
+            if ((n % 2) == 1) {
+                write(odd_pipe[WR], &n, sizeof(n));
             }
         }
     } else {
-        close(fd_disp[FD_WRITE]);
-        close(fd_disp[FD_WRITE]);
-        int n, t;
+        close(even_pipe[WR]);
+        close(odd_pipe[WR]);
 
-        while (1) {
-            buffer = read(fd_disp[FD_READ], &n, sizeof(int));
-            buffer = read(fd_pari[FD_READ], &t, sizeof(int));
-            int m = n + t;
-            printf("%d\n", m);
-            if (m > 190) {
-                kill(pari_pid, SIGTERM);
-                kill(disp_pid, SIGTERM);
+        int even, odd;
+
+        while (TRUE) {
+            buffer = read(even_pipe[RD], &even, sizeof(int));
+            buffer = read(odd_pipe[RD], &odd, sizeof(int));
+            int final = odd + even;
+            printf("%d +  %d = %d\n", even, odd, final);
+
+            if (final >= MAX) {
+                printf("%d è maggiore di %d\n", final, MAX);
+                kill(odd_pid, SIGTERM);
+                kill(even_pid, SIGTERM);
                 break;
             }
         }
     }
 
     return 0;
-}
-
-int generate() {
-    int n = rand() % 101;
-    return n;
 }

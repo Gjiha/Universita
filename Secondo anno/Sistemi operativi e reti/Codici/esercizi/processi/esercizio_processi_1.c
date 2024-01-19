@@ -29,13 +29,13 @@ int main() {
     pipe(fpar);
 
     if ((disp_pid = fork()) ==
-        0) { // creo il processo figlio e lo faccio entrare in questo if mantre
-             // il padre salta all'else
+        0) {                   // creo il processo figlio e lo faccio entrare in questo if mantre
+                               // il padre salta all'else
         close(fdisp[PIPE_RD]); // chiudo la pipe in lettura perché il figlio
                                // scrive e basta
-        close(STDOUT); // chiudo lo STDOUT perché il figlio scrive direttamente
-                       // sulla pipe
-        dup(fdisp[PIPE_WR]); // faccio in modo che lo scriva qui
+        close(STDOUT);         // chiudo lo STDOUT perché il figlio scrive direttamente
+                               // sulla pipe
+        dup(fdisp[PIPE_WR]);   // faccio in modo che lo scriva qui
         while (1) {
             int n = generate();
 
@@ -47,13 +47,13 @@ int main() {
     }
 
     else if ((par_pid = fork()) ==
-             0) { // creo il processo figlio e lo faccio entrare in questo if
-                  // mantre il padre salta all'else
+             0) {             // creo il processo figlio e lo faccio entrare in questo if
+                              // mantre il padre salta all'else
         close(fpar[PIPE_RD]); // chiudo la pipe in lettura perché il figlio
                               // scrive e basta
-        close(STDOUT); // chiudo lo STDOUT perché il figlio scrive direttamente
-                       // sulla pipe
-        dup(fpar[PIPE_WR]); // faccio in modo che lo scriva qui
+        close(STDOUT);        // chiudo lo STDOUT perché il figlio scrive direttamente
+                              // sulla pipe
+        dup(fpar[PIPE_WR]);   // faccio in modo che lo scriva qui
         while (1) {
             int f = generate();
 
