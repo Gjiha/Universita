@@ -7,7 +7,7 @@ def fibonacci_2 (n):
         return fibonacci_2(n-1)+fibonacci_2(n-2)
     
     
-print (fibonacci_2(10))
+print (fibonacci_2(1000))
 
 #In[2]
 
@@ -23,7 +23,7 @@ def fibonacci_3 (n):
     
     return fib[n-1]
 
-print (fibonacci_3(6))
+#print (fibonacci_3(6))
 
 #In[3]
 
@@ -38,20 +38,12 @@ def fibonacci_4 (n):
         i += 1
     return z
 
-print(fibonacci_4(6))
+#print(fibonacci_4(6))
 
     
 
 #In[4]
 
-def fibonacci_5 (n):
-    M = [[1],[0],[0],[1]]
-
-    for i in range(n-1):
-        M = M*[[1],[1],[1],[0]]
-    return M[0[0]]
-
-print(fibonacci_5(5))
 
 
 # %%

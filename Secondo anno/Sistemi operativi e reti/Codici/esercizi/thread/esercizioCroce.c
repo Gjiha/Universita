@@ -15,104 +15,122 @@ Il processo eseguito, inizialmente crea un buffer come array di 11 numeri interi
 #include <time.h>
 #include <unistd.h>
 
-#define LEN 10
 #define TRUE 1
+#define FALSE 0
 
 pthread_mutex_t the_mutex;
-pthread_cond_t condc;
-pthread_t add, rem, cont;
+pthread_cond_t add_cond, remove_cond, final_cond;
+pthread_t adder, remover, final;
 
-int buffer[LEN] = {0};
-int modified;
+int buffer[11] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+int modified = 0;
 
-void printbuffer() {
+void print_buffer(int array[]) {
     printf("[");
-    for (int i = 0; i < LEN; i++) {
-        printf(", %d", buffer[i]);
+    for (int i = 0; i < 12; i++) {
+        printf("%d, ", buffer[i]);
     }
     printf("]\n");
 }
 
-void *aggiungi(void *ptr) {
+int control(int array[]) {
+    int initialize = TRUE;
+    for (int i = 0; i <= 11; i++) {
+        if (array[i] == 0) {
+            initialize = FALSE;
+            break;
+        }
+    }
+    return initialize;
+}
+
+void *aggiungere(void *ptr) {
+    srand(getpid());
     while (TRUE) {
         pthread_mutex_lock(&the_mutex);
-        int i = rand() % LEN;
-
+        while (modified != 0) {
+            pthread_cond_wait(&add_cond, &the_mutex);
+        }
+        int n = rand() % 12;
+        buffer[n] = 1;
+        printf("aggiungendo 1 in posizione %d\n", n);
+        print_buffer(buffer);
         modified = 1;
-
-        buffer[i] = 1;
-        printf("settato ad 1 la posizione %d\n", i);
-        printbuffer();
-
-        pthread_cond_signal(&condc);
+        sleep(1);
+        pthread_cond_signal(&final_cond);
         pthread_mutex_unlock(&the_mutex);
-        sleep(rand() % 3);
     }
 }
 
-void *togli(void *ptr) {
+void *togliere(void *ptr) {
+    srand(time(NULL));
     while (TRUE) {
         pthread_mutex_lock(&the_mutex);
-        int i = rand() % LEN;
-
+        while (modified != 0) {
+            pthread_cond_wait(&remove_cond, &the_mutex);
+        }
+        int n = rand() % 12;
+        buffer[n] = -1;
+        printf("aggiungendo -1 in posizione %d\n", n);
+        print_buffer(buffer);
         modified = 1;
-
-        buffer[i] = -1;
-        printf("settato a -1 la posizione %d\n", i);
-        printbuffer();
-
-        pthread_cond_signal(&condc);
+        sleep(1);
+        pthread_cond_signal(&final_cond);
         pthread_mutex_unlock(&the_mutex);
-        sleep(rand() % 3);
     }
 }
 
-void *controlla(void *ptr) {
+void *finale(void *ptr) {
     while (TRUE) {
         pthread_mutex_lock(&the_mutex);
-
         while (modified == 0) {
-            pthread_cond_wait(&condc, &the_mutex);
+            pthread_cond_wait(&final_cond, &the_mutex);
         }
+        if (control(buffer)) {
+            printf("il buffer è inizializzato\n");
+            int positive;
+            int negative;
 
-        modified = 0;
-        int c = 0;
-
-        for (int i = 0; i < LEN; i++) {
-            if (buffer[i] == 0) {
-                c++;
+            for (int i = 0; i <= 11; i++) {
+                if (buffer[i] == 1) {
+                    positive++;
+                } else {
+                    negative++;
+                }
             }
-        }
-
-        printf("controllando il buffer\n");
-        sleep(rand() % 3);
-
-        if (c != 0) {
+            printf("%d, %d", positive, negative);
+            print_buffer(buffer);
+            pthread_kill(adder, SIGINT);
+            pthread_kill(remover, SIGINT);
             pthread_mutex_unlock(&the_mutex);
-        } else {
-            printf("sparati\n");
-            pthread_kill(add, SIGINT);
-            pthread_kill(rem, SIGINT);
             pthread_exit(0);
         }
+        printf("controllando il buffer\n");
+        modified = 0;
+        pthread_cond_signal(&add_cond);
+        pthread_cond_signal(&remove_cond);
+        pthread_mutex_unlock(&the_mutex);
     }
 }
 
 int main(int argc, char *argv[]) {
-
     pthread_mutex_init(&the_mutex, NULL);
-    pthread_cond_init(&condc, NULL);
+    pthread_cond_init(&add_cond, NULL);
+    pthread_cond_init(&remove_cond, NULL);
+    pthread_cond_init(&final_cond, NULL);
 
-    pthread_create(&add, NULL, aggiungi, NULL);
-    pthread_create(&rem, NULL, togli, NULL);
-    pthread_create(&cont, NULL, controlla, NULL);
+    pthread_create(&adder, NULL, aggiungere, NULL);
+    pthread_create(&remover, NULL, togliere, NULL);
+    pthread_create(&final, NULL, finale, NULL);
 
-    pthread_join(add, NULL);
-    pthread_join(rem, NULL);
-    pthread_join(cont, NULL);
+    pthread_join(adder, NULL);
+    pthread_join(remover, NULL);
+    pthread_join(final, NULL);
 
     pthread_mutex_destroy(&the_mutex);
-    pthread_cond_destroy(&condc);
+    pthread_cond_destroy(&add_cond);
+    pthread_cond_destroy(&remove_cond);
+    pthread_cond_destroy(&final_cond);
 
     return 0;
 }
