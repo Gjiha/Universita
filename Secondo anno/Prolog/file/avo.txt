@@ -1,0 +1,20 @@
+
+genitore(mario, dario).
+genitore(mario, gino).
+genitore(pino, dino).
+genitore(raffaele, mario).
+genitore(dora, raffaele).
+
+fratello(X, Y) :-
+    genitore(Z, X),
+    genitore(Z, Y).
+nonno(X, Y) :-
+    genitore(X, Z),
+    genitore(Z, Y).
+avo(X, Y) :-
+    genitore(X, Y).
+avo(X, Y) :-
+    genitore(X, Z),
+    avo(Z, Y).
+    
+

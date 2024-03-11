@@ -1,0 +1,30 @@
+%fatti
+arco(a, b).
+arco(b, c).
+arco(c, d).
+arco(a, e).
+arco(e, f).
+arco(f, k).
+arco(f, c).
+arco(c, a).
+
+%predicati
+
+path(X, Y):-
+    %passo_base
+    arco(X, Y).
+
+path(X, Y) :-
+    %passo induttivo
+    arco(X, Z),
+    path(Z, Y).
+
+ciclo(X) :-
+    %passo base
+    arco(X, Z),
+    arco(Z, X).
+
+ciclo(X) :-
+    %passo_induttivo
+    arco(X, Z),
+    path(Z, X).
