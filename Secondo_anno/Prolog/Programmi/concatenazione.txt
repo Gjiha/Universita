@@ -1,0 +1,17 @@
+
+appartiene(X, [X|_]).
+
+appartiene(X, [_|T]) :-
+    appartiene(X, T).
+
+/* ?- appartiene(3, [1,2,3]) (X, [1,2,3]) (3, X) */
+
+
+concatenazione([], A, A). /* concateno la lista vuota con A sicuramente sarà A */
+
+concatenazione([H|T], B, [H|L]) :-  /* concatena il primo parametro con il secondo e vedo se è unificato al terzo */
+    concatenazione(T, B, L).
+
+
+    
+    
