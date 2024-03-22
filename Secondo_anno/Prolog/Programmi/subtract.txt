@@ -1,0 +1,19 @@
+
+subtract(_, [], []).
+
+subtract(X, [X|T], T).
+
+subtract(X, [A|PT1], [A|PT2]) :-
+    subtract(X, PT1, PT2).
+    
+
+permutazione([], []).
+
+pertmutazione([H|T], B):-
+    permutazione(T, PT1_2),
+    appartiene(H, B),
+    subtract(H, B, PT1_2).
+
+
+
+

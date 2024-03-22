@@ -1,0 +1,40 @@
+lung([], 0).
+
+lung([_|T], Lung):-
+    lung(T, A),
+    Lung is A + 1.
+/**/
+
+num([], _, 0). /*numero elementi(El) che appartengono ad L*/
+
+num([El|T], El, N):- /**/  
+	num(T,El, M),
+    N is M + 1.
+
+num([X|T], El, M):-
+    X\=El, /*X non è El, il diverso*/
+    num(T, El, M).
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
