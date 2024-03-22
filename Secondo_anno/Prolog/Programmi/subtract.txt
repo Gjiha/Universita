@@ -1,3 +1,14 @@
+concatena([], A, A).
+
+concatena([H|T], B, [H|L]) :-
+    concatena(T, B, L)
+
+rivolta([], []).
+
+rivolta([H|T], L) :-
+    rivolta(T, L),
+    concatena(T, H, L).
+
 
 subtract(_, [], []).
 
