@@ -5,9 +5,9 @@ concatena([H|T], B, [H|L]) :-
 
 rivolta([], []).
 
-rivolta([H|T], L) :-
-    rivolta(T, L),
-    concatena(T, H, L).
+rivolta([H|T], RL) :-
+    concatena(RT, [H], RL),
+    rivolta(T, RT).
 
 
 subtract(_, [], []).
