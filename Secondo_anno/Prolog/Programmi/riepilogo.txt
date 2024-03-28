@@ -1,0 +1,32 @@
+appartiene(X, [X|_]).
+appartiene(X, [_|T]) :-
+    appartiene(X, T).
+
+concatena([], A, A).
+concatena([H|T], B, [H|L]):-
+    concatena(T, B, L).
+
+rivolta([], []).
+rivolta([H|T], RL):-
+    concatena(RT, [H], RL),
+    rivolta(T, RT).
+
+subtract(_, [], []).
+subtract(H, [H|T], T).
+subtract(X, [A|PT1], [A|PT2]) :-
+    subtract(X, PT1, PT2).
+
+permutazione([], []).
+permutazione([H|T], B) :-
+    appartiene(H, B),
+    subtract(H, B, L),
+    permutazione(T, L).
+
+len([], 0).
+len([_|T], N):-
+    len(T, M),
+    N is M+1.
+
+
+    
+    
