@@ -1,0 +1,9 @@
+%assert() -> fa diventare una regola vera
+%consult() -> prende un file e lo mette in memoria
+%retract() -> se è vero cancella il fatto
+%retractAll() -> cancella tutti quelli che si unificabili con l'input
+
+len([], 0).
+len(3, 0).
+assert(len([], 0)).
+retract(len([], 0)).
