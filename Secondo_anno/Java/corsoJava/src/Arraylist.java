@@ -40,6 +40,7 @@ public class Arraylist {
                 System.out.print(classi.get(k).get(t) + " ");
             }
         }
+        
 
 
 

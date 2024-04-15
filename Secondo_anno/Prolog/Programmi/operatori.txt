@@ -1,0 +1,22 @@
+%:- op(priorità,(fx, xfx, xfy, yfx) ,nome) f -> funzione, priorità -> decrescente
+%tutti gli operatori sono binari ,x<y  ,xfy -> x(y)
+
+%operatore somma che si deve comportare come il +
+
+
+:-op(100, yfx, di).
+:-op(200, xfy, ha).
+
+mamma ha papà ha mario.
+mario ha macchina di dario.
+giovanni ha panino.
+elena ha panino di giovanni.
+giacomo ha borsa di pelle di daino.
+gennaro ha borsa di pelle di nonna. 
+
+%var(X) -> ci dice se la variabile è unificata.
+%nonvar(X) -> negazione di var.
+
+
+%esercizio delle otto regine in prolog 
+%modo di rappresentare la scacchiera e regole e ci dice dove si trovano le regine
