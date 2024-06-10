@@ -14,6 +14,7 @@ public class Ludoteca {
     private HashMap<String, Integer> disponibilita;
     private HashMap<LocalDate, ArrayList<Prestito>> catalogoPrestiti;
 
+
     Ludoteca(String nome){
         this.nome = nome;
         this.catalogoLibri = new HashMap<String, Book>();
