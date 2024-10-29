@@ -35,6 +35,7 @@ EnvCanvas ## Canvas to display the environment of an EnvGUI
 #
 # Speed control in GUI does not have any effect -- fix it.
 
+import collections.abc
 from utils import distance_squared, turn_heading
 from statistics import mean
 from ipythonblocks import BlockGrid
@@ -89,7 +90,7 @@ class Agent(Thing):
         self.bump = False
         self.holding = []
         self.performance = 0
-        if program is None or not isinstance(program, collections.Callable):
+        if program is None or not isinstance(program, collections.abc.Callable):
             print("Can't find a valid program for {}, falling back to default.".format(
                 self.__class__.__name__))
 
